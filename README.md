@@ -1,1 +1,1 @@
-# SYmfonySandBoxApplication
+# SymfonySandBoxApplication
