@@ -18,6 +18,7 @@
     },
     "require": {
         "php": ">=5.6",
+        "akuma/distribution-bundle": "1.0.*",
         "doctrine/doctrine-bundle": "~1.4",
         "doctrine/orm": "^2.4.8",
         "incenteev/composer-parameter-handler": "~2.0",

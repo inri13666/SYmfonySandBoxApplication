@@ -4,8 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "79fe4b47eb6bf8e21a2ccada06700b34",
+    "content-hash": "93c7d08122804d274be4e1c11f195d6a",
     "packages": [
+        {
+            "name": "akuma/distribution-bundle",
+            "version": "v1.0.0",
+            "target-dir": "Akuma/Bundle/DistributionBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inri13666/AkumaDistributionBundle.git",
+                "reference": "b02a4c8ccd01e6ca58d9f21bd04707f7bd0fb61c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inri13666/AkumaDistributionBundle/zipball/b02a4c8ccd01e6ca58d9f21bd04707f7bd0fb61c",
+                "reference": "b02a4c8ccd01e6ca58d9f21bd04707f7bd0fb61c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6",
+                "symfony/symfony": ">=2.8.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Akuma\\Bundle\\DistributionBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Makarov",
+                    "email": "mesaverde228@gmail.com"
+                }
+            ],
+            "homepage": "http://bundles.akuma.in/distribution",
+            "time": "2017-05-09T16:44:59+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.7",
@@ -2212,10 +2250,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.9"
+        "php": ">=5.6"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "5.3.9"
-    }
+    "platform-dev": []
 }

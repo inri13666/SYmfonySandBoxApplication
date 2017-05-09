@@ -1,0 +1,3 @@
+akuma_test_homepage:
+    path:     /
+    defaults: { _controller: AkumaTestBundle:Default:index }

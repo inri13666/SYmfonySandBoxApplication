@@ -1,9 +1,9 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
+use Akuma\Bundle\DistributionBundle\AkumaKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
-class AppKernel extends Kernel
+class AppKernel extends AkumaKernel
 {
     public function registerBundles()
     {
@@ -25,7 +25,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
-        return $bundles;
+        return array_merge(parent::registerBundles(), $bundles);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
