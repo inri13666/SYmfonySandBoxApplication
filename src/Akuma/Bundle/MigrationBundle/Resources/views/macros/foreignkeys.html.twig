@@ -1,0 +1,19 @@
+{% macro renderRemovedForeignKeys(removedForeignKeys) %}
+    {% for removedForeignKey in removedForeignKeys %}
+        {{ _self.renderRemovedForeignKey(removedForeignKey) }}
+    {% endfor %}
+{% endmacro renderRemovedForeignKeys %}
+
+{% macro renderRemovedForeignKey(removedForeignKey) %}
+    $table->removeForeignKey('{{ removedForeignKey.name }}');
+{% endmacro renderRemovedForeignKey %}
+
+{% macro renderNewForeignKeys(foreignKeys) %}
+    {% for foreignKey in foreignKeys %}
+        {{ _self.renderRemovedForeignKey(foreignKey) }}
+    {% endfor %}
+{% endmacro renderNewForeignKeys %}
+
+{% macro renderRemovedForeignKey(foreignKey) %}
+    $table->addForeignKeyConstraint('{{ foreignKey.foreignTableName }}');
+{% endmacro renderRemovedForeignKey %}

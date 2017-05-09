@@ -1,0 +1,27 @@
+{% macro renderRemovedNamespaces(namespaces) %}
+    {% if namespaces|length %}
+        {% for namespace in namespaces %}
+            {{ _self.renderRemovedNamespace(namespace) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderRemovedNamespaces %}
+
+{% macro renderNewNamespaces(namespaces) %}
+    {% if namespaces|length %}
+        {% for namespace in namespaces %}
+            {{ _self.renderNewNamespace(namespace) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderNewNamespaces %}
+
+{% macro renderRemovedNamespace(namespace) %}
+    if($schema->hasNamespace('{{ namespace.name }}')){
+        //TODO: Process DROP Namespace
+    }
+{% endmacro renderRemovedNamespace %}
+
+{% macro renderNewNamespace() %}
+    if(!$schema->hasNamespace('{{ namespace.name }}')){
+        $schema->createNamespace('{{ namespace.name }}');
+    }
+{% endmacro renderNewNamespace %}

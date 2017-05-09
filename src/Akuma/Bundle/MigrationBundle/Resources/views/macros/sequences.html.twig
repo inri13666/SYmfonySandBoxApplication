@@ -1,0 +1,42 @@
+{% macro renderRemovedSequences(sequences) %}
+    {% if sequences|length %}
+        {% for sequence in sequences %}
+            {{ _self.renderRemovedSequence(sequence) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderRemovedSequences %}
+
+{% macro renderChangedSequences(sequences) %}
+    {% if sequences|length %}
+        {% for sequence in sequences %}
+            {{ _self.renderChangedSequence(sequence) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderChangedSequences %}
+
+{% macro renderNewSequences(sequences) %}
+    {% if sequences|length %}
+        {% for sequence in sequences %}
+            {{ _self.renderNewSequence(sequence) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderNewSequences %}
+
+{% macro renderRemovedSequence(sequence) %}
+    if($schema->hasSequence('{{ sequence.name }}')){
+        $schema->dropSequence('{{ sequence.name }}');
+    }
+{% endmacro renderRemovedSequence %}
+
+{% macro renderChangedSequence() %}
+    if($schema->hasSequence('{{ sequence.name }}')){
+        $sequence = $schema->getSequence('{{ sequence.name }}');
+        //TODO: Process Sequences
+    }
+{% endmacro renderChangedSequence %}
+
+{% macro renderNewSequence() %}
+    if(!$schema->hasSequence('{{ sequence.name }}')){
+        $schema->createSequence('{{ sequence.name }}', {{ sequence.allocationSize|default(1) }}, {{ sequence.initialValue|default(1) }})
+    }
+{% endmacro renderNewSequence %}

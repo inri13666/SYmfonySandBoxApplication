@@ -1,0 +1,65 @@
+{% macro renderRemovedIndexes(removedIndexes) %}
+    {% for removedIndex in removedIndexes %}
+        {{ _self.renderRemovedIndex(removedIndex) }}
+    {% endfor %}
+{% endmacro renderRemovedIndexes %}
+
+{% macro renderChangedIndexes(indexes) %}
+    {% if indexes|length %}
+        {% for indexDiff in indexes %}
+            {{ _self.renderChangedIndex(indexDiff) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderChangedIndexes %}
+
+{% macro renderNewIndexes(indexes) %}
+    {% if indexes|length %}
+        {% for index in indexes %}
+            {{ _self.renderNewIndex(index) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderNewIndexes %}
+
+{% macro renderRemovedIndex(index) %}
+    {% if removedIndex.isPrimary() %}
+        $table->dropPrimaryKey();
+    {% else %}
+        $table->dropIndex('{{ index.name }}');
+    {% endif %}
+{% endmacro renderRemovedIndex %}
+
+{% macro renderChangedIndex(indexDiff) %}
+{% endmacro renderChangedIndex %}
+
+{% macro renderNewIndex(index) %}
+    $table->addIndex({{ _self.dumpArray(index.columns) }}, {{ index.name }}, {{ _self.dumpOptionsArray(index.flags) }}, {{ _self.dumpOptionsArray(index.options) }});
+{% endmacro renderNewIndex %}
+
+{% macro dumpOptionsArray(arrayValues) %}
+    {% spaceless %}
+        {% set items = [] %}
+        {% for valueName, value in arrayValues %}
+            {% if value is null %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => null"]) %}
+            {% elseif value is same as(true) %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => true"]) %}
+            {% elseif value is same as(false) %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => false"]) %}
+            {% elseif value is iterable %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => " ~ _self.dumpOptionsArray(value)]) %}
+            {% else %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => '" ~ value ~ "'"]) %}
+            {% endif %}
+        {% endfor %}
+        [{{ items|join(', ')|raw }}]
+    {% endspaceless %}
+{% endmacro %}
+{% macro dumpArray(arrayValues) %}
+    {% spaceless %}
+        {% set items = [] %}
+        {% for valueName, value in arrayValues %}
+            {% set items = items|merge(["'" ~ value ~ "'"]) %}
+        {% endfor %}
+        [{{ items|join(', ')|raw }}]
+    {% endspaceless %}
+{% endmacro %}

@@ -1,0 +1,65 @@
+{% macro renderRemovedTables(tables) %}
+    {% for table in tables %}
+        {{ _self.renderRemovedTable(table) }}
+    {% endfor %}
+{% endmacro renderRemovedTables %}
+
+{% macro renderChangedTables(tables) %}
+    {% for table in tables %}
+        {{ _self.renderChangedTable(table) }}
+    {% endfor %}
+{% endmacro renderChangedTables %}
+
+{% macro renderNewTables(tables) %}
+    {% for table in tables %}
+        {{ _self.renderNewTable(table) }}
+    {% endfor %}
+{% endmacro renderNewTables %}
+
+{% macro renderChangedTable(tableDiff) %}
+    {% import '@AkumaMigration/macros/columns.html.twig' as C %}
+    {% import '@AkumaMigration/macros/indexes.html.twig' as I %}
+    {% import '@AkumaMigration/macros/foreignkeys.html.twig' as F %}
+    {% if tableDiff.newName %}
+        $schema->renameTable('{{ tableDiff.name }}', '{{ tableDiff.newName }}');
+        {% set name = tableDiff.newName %}
+    {% else %}
+        {% set name = tableDiff.name %}
+    {% endif %}
+    {% if tableDiff.removedForeignKeys|length %}
+        /** Drop Foreign Keys */
+        {{ F.renderRemovedForeignKeys(tableDiff.removedForeignKeys) }}
+    {% endif %}
+    {% if tableDiff.removedIndexes|length %}
+        /** Drop Indexes */
+        {{ F.renderRemovedForeignKeys(tableDiff.removedIndexes) }}
+    {% endif %}
+    /** @var Table $table */
+    $table = $schema->getTable('{{ name }}');
+    {% if tableDiff.removedColumns|length %}
+        /** Remove Columns */
+        {{ C.renderRemovedColumns(tableDiff.removedColumns) }}
+    {% endif %}
+    {% if tableDiff.changedColumns|length %}
+        /** Update Columns */
+        {{ C.renderChangedColumns(tableDiff.changedColumns) }}
+    {% endif %}
+    {% if tableDiff.addedColumns|length %}
+        /** Create Columns */
+        {{ C.renderAddedColumns(tableDiff.addedColumns) }}
+    {% endif %}
+{% endmacro renderChangedTable %}
+
+{% macro renderRemovedTable(table) %}
+    $schema->dropTable('{{ table.name }}');
+{% endmacro renderRemovedTable %}
+
+{% macro renderNewTable(table) %}
+    {% import '@AkumaMigration/macros/columns.html.twig' as C %}
+    {% import '@AkumaMigration/macros/indexes.html.twig' as I %}
+    {% import '@AkumaMigration/macros/foreignkeys.html.twig' as F %}
+    $table = $schema->createTable('{{ table.name }}');
+    {{ C.renderAddedColumns(table.columns) }}
+    {{ I.renderNewIndexes(table.indexes) }}
+    {{ F.renderNewForeignKeys(table.foreignKeys) }}
+{% endmacro renderNewTable %}

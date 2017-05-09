@@ -1,4 +1,4 @@
 class: '\Akuma\Bundle\TestBundle\AkumaTestBundle'
 priority: -1
 kernel: true
-environment: ['test', 'prod']
+environment: ['test', 'prod', 'dev']

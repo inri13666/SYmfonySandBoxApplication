@@ -1,0 +1,54 @@
+{% import '@AkumaMigration/macros/tables.html.twig' as T %}
+{% import '@AkumaMigration/macros/namespaces.html.twig' as NS %}
+{% import '@AkumaMigration/macros/sequences.html.twig' as S %}
+<?php
+
+namespace Application\Migrations;
+
+use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+class Version{{ migrationVersion }} extends AbstractMigration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function up(Schema $schema)
+    {
+        {% set _schema = up %}
+        {#Changed Sequences#}
+        {#Removed Namespaces#}
+        {#{{ R.renderChangedTables(up.changedTables) }}#}
+        {#New Namespaces#}
+        {% if _schema.removedTables|length %}
+        /** Update Tables */
+        {{ T.renderRemovedTables(_schema.removedTables) }}
+        {% endif %}
+        {% if _schema.changedTables|length %}
+        /** Remove Tables */
+        {{ T.renderChangedTables(_schema.changedTables) }}
+        {% endif %}
+        {% if _schema.newTables|length %}
+        /** Create Tables */
+        {{ T.renderNewTables(_schema.newTables) }}
+        {% endif %}
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function down(Schema $schema)
+    {
+        {% set _schema = down %}
+        /** Update Tables */
+        {{ T.renderRemovedTables(_schema.removedTables) }}
+        /** Remove Tables */
+        {{ T.renderChangedTables(_schema.changedTables) }}
+        /** Create Tables */
+        {{ T.renderNewTables(_schema.newTables) }}
+    }
+}

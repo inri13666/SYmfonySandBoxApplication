@@ -1,0 +1,68 @@
+{% macro renderRemovedColumns(columns) %}
+    {% if columns|length %}
+        {% for column in columns %}
+            {{ _self.renderRemovedColumn(column) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderRemovedColumns %}
+
+{% macro renderChangedColumns(columns) %}
+    {% if columns|length %}
+        {% for columnDiff in columns %}
+            {{ _self.renderChangedColumn(columnDiff) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderChangedColumns %}
+
+{% macro renderAddedColumns(columns) %}
+    {% if columns|length %}
+        {% for column in columns %}
+            {{ _self.renderAddedColumn(column) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro renderAddedColumns %}
+
+{% macro renderRemovedColumn(column) %}
+    {% spaceless %}
+    $table->dropColumn('{{ column.name }}');
+    {% endspaceless %}
+{% endmacro renderRemovedColumn %}
+
+{% macro renderChangedColumn(columnDiff) %}
+    {% spaceless %}
+    $table->changeColumn('{{ columnDiff.name }}', {{ _self.dumpColumnOptions(columnDiff.changedProperties) }});
+    {% endspaceless %}
+{% endmacro renderChangedColumn %}
+
+{% macro renderAddedColumn(column) %}
+    {% spaceless %}
+        $table->addColumn('{{ column.name }}', '{{ column.type|lower }}', {{ _self.dumpColumnOptions(column.toArray) }});
+    {% endspaceless %}
+{% endmacro renderAddedColumn %}
+
+{% macro dumpColumnOptions(options) %}
+    {% spaceless %}
+        {% set options = options|column_filter %}
+        {{ _self.dumpOptionsArray(options) }}
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro dumpOptionsArray(arrayValues) %}
+    {% spaceless %}
+        {% set items = [] %}
+        {% for valueName, value in arrayValues %}
+            {% if value is null %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => null"]) %}
+            {% elseif value is same as(true) %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => true"]) %}
+            {% elseif value is same as(false) %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => false"]) %}
+            {% elseif value is iterable %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => " ~ _self.dumpOptionsArray(value)]) %}
+            {% else %}
+                {% set items = items|merge(["'" ~ valueName ~ "' => '" ~ value ~ "'"]) %}
+            {% endif %}
+        {% endfor %}
+        [{{ items|join(', ')|raw }}]
+    {% endspaceless %}
+{% endmacro %}
