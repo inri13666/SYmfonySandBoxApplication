@@ -1,1 +1,5 @@
-class: '\Akuma\Bundle\MigrationBundle\AkumaMigrationBundle'
+bundle:
+    class: '\Akuma\Bundle\MigrationBundle\AkumaMigrationBundle'
+#    require:
+#        - {class: 'XXX', kernel: true}
+#        - {class: 'XXX2'}

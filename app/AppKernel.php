@@ -16,7 +16,6 @@ class AppKernel extends AkumaKernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new AppBundle\AppBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
@@ -26,7 +25,7 @@ class AppKernel extends AkumaKernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
-        return array_merge($bundles, parent::registerBundles());
+        return parent::registerBundles($bundles);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

@@ -1,4 +1,13 @@
-class: '\Akuma\Bundle\TestBundle\AkumaTestBundle'
-priority: -1
-kernel: true
-environment: ['test', 'prod', 'dev']
+bundle:
+    class: '\Akuma\Bundle\TestBundle\AkumaTestBundle'
+    priority: -1
+    kernel: true
+    environments: ['test', 'prod', 'dev']
+    require:
+        - {class: 'AppBundle\AppBundle', kernel: true}
+        - {class: 'AppBundle\AppBundle', kernel: true}
+        - {class: 'AppBundle\AppBundle', kernel: true}
+        - {class: 'AppBundle\AppBundle', kernel: true}
+        - {class: 'AppBundle\AppBundle', kernel: true}
+        - {class: 'AppBundle\AppBundle', kernel: true}
+        - {class: 'AppBundle\AppBundle', kernel: true}

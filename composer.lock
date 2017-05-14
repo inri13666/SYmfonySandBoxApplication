@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "58b5840f4134d9f784242a78fd903766",
+    "content-hash": "94c5218a9f398218860d1905be878204",
     "packages": [
         {
             "name": "akuma/distribution-bundle",
-            "version": "v1.0.1",
+            "version": "dev-master",
             "target-dir": "Akuma/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
@@ -42,7 +42,7 @@
                 }
             ],
             "homepage": "http://bundles.akuma.in/distribution",
-            "time": "2017-05-09T18:19:14+00:00"
+            "time": "2017-05-09 18:19:14"
         },
         {
             "name": "doctrine/annotations",
@@ -2660,7 +2660,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "akuma/distribution-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
